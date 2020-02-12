@@ -91,13 +91,13 @@ function buttonState() {
     if (index > -1) {
         undoButton.disabled = false;
     } else {
-        undoButton.disabled = 'disabled';
+        undoButton.disabled = true;
     }
 
     // index가 -1부터 시작해서 계산했기 때문에 총 length에서 -1
     if (index < array.length - 1) {
         redoButton.disabled = false;
     } else {
-        redoButton.disabled = 'disabled';
+        redoButton.disabled = true;
     }
 }
