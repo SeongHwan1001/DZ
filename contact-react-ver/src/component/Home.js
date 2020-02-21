@@ -16,6 +16,7 @@ const Home = ({ contacts, onRemove, onFavorite, onUpdateCheck, history }) => {
    const onChange = e => {
       setKeyword(e.target.value);
    };
+
    const style = {
       color: '#828282',
       fontSize: '25px',

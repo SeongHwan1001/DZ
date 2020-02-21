@@ -1,13 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-
 import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PhoneIphone from '@material-ui/icons/PhoneIphone';
 import Face from '@material-ui/icons/Face';
@@ -26,27 +23,26 @@ const Update = ({ contact, onUpdate, history }) => {
    }));
 
    const classes = useStyles();
-   const [name, setName] = useState(contact[0].name);
-   const [phone, setPhone] = useState(contact[0].phone);
 
-   const onNameChange = useCallback(e => {
+   // Add의 name과 phone를 App에서 관리를 하면 편하지만 update시 기존에 가지고 있던 정보를 가지고 와서 뿌려주고 그 값을 가지고
+   // setName을 사용하기 위해 Add, Update에 각 name, phone의 state와 onChange를 만들어 주었다.
+   // 만약 App에서 관리하면 setName, setPhone 사용 불가 -> 즉, 기존의 값을 TextField에 뿌려주지 못함
+   const [name, setName] = useState(contact.name);
+   const [phone, setPhone] = useState(contact.phone);
+
+   const onNameChange = e => {
       setName(e.target.value);
-   }, []);
+   };
 
-   const onPhoneChange = useCallback(e => {
+   const onPhoneChange = e => {
       setPhone(e.target.value);
-   }, []);
+   };
 
-   const onSubmit = useCallback(
-      e => {
-         onUpdate(name, phone);
-         // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
-         // 이를 방지하기 위해 이 함수를 호출한다.
-         e.preventDefault();
-         history.goBack();
-      },
-      [onUpdate, history, name, phone],
-   );
+   const onSubmit = e => {
+      e.preventDefault();
+      onUpdate(name, phone);
+      history.goBack();
+   };
 
    const style = {
       color: '#828282',

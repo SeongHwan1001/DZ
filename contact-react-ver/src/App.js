@@ -1,10 +1,9 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Home from './component/Home';
 import Favorites from './component/Favorites';
 import Add from './component/Add';
 import Update from './component/Update';
-
 import HHome from '@material-ui/icons/Home';
 import Favorite from '@material-ui/icons/Favorite';
 import AAdd from '@material-ui/icons/Add';
@@ -67,58 +66,45 @@ const App = ({ history }) => {
    // key(고유값)으로 사용될 id
    const nextId = useRef(9);
 
-   // props로 함수를 전달 할 때는 컴포넌트의 성능을 아낄 수 있도록 useCallback으로 감싸 주는것이 좋다.
-   const onInsert = useCallback(
-      (name, phone) => {
-         const contact = {
-            id: nextId.current,
-            name: name,
-            phone: phone,
-            favorite: false,
-         };
-         setContacts(contacts.concat(contact));
-         nextId.current += 1;
-      },
-      [contacts],
-   );
+   const onInsert = (name, phone) => {
+      const contact = {
+         id: nextId.current,
+         name: name,
+         phone: phone,
+         favorite: false,
+      };
+      setContacts(contacts.concat(contact));
+      nextId.current += 1;
+   };
+   const onRemove = id => {
+      // 요소 하나 씩 id와 비교해서 조건에 해당되는 원소들만 추출하여 새로운 배열을 만듬
+      setContacts(contacts.filter(contact => contact.id !== id));
+   };
 
-   const onRemove = useCallback(
-      id => {
-         // 요소 하나 씩 id와 비교해서 조건에 해당되는 원소들만 추출하여 새로운 배열을 만듬
-         setContacts(contacts.filter(contact => contact.id !== id));
-      },
-      [contacts],
-   );
+   const onFavorite = id => {
+      setContacts(
+         contacts.map(contact =>
+            contact.id === id
+               ? { ...contact, favorite: !contact.favorite }
+               : contact,
+         ),
+      );
+   };
 
-   const onFavorite = useCallback(
-      id => {
-         setContacts(
-            contacts.map(contact =>
-               contact.id === id
-                  ? { ...contact, favorite: !contact.favorite }
-                  : contact,
-            ),
-         );
-      },
-      [contacts],
-   );
+   const onUpdate = (name, phone) => {
+      setContacts(
+         contacts.map(contact =>
+            contact.id === checkId
+               ? { ...contact, name: name, phone: phone }
+               : contact,
+         ),
+      );
+   };
 
-   const onUpdate = useCallback(
-      (name, phone) => {
-         setContacts(
-            contacts.map(contact =>
-               contact.id === checkId
-                  ? { ...contact, name: name, phone: phone }
-                  : contact,
-            ),
-         );
-      },
-      [contacts, checkId],
-   );
-
-   const onUpdateCheck = useCallback(id => {
+   const onUpdateCheck = id => {
       setCheckId(id);
-   }, []);
+   };
+
    return (
       <div align="center">
          <table>
@@ -175,7 +161,9 @@ const App = ({ history }) => {
             path="/update"
             render={() => (
                <Update
-                  contact={contacts.filter(contact => contact.id === checkId)}
+                  contact={
+                     contacts.filter(contact => contact.id === checkId)[0]
+                  }
                   onUpdate={onUpdate}
                   history={history}
                />
