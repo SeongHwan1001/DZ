@@ -1,11 +1,6 @@
 import React from 'react';
 // http://react-icons.netlify.com/#/icons/md 리액트 지원 icon 사용
-import {
-   MdBookmark,
-   MdBookmarkBorder,
-   MdDelete,
-   MdCached,
-} from 'react-icons/md';
+import { MdBookmark, MdBookmarkBorder, MdDelete, MdEdit } from 'react-icons/md';
 import { withRouter } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
@@ -50,7 +45,7 @@ const ContactList = ({
                   onUpdateCheck(contact.id);
                }}
             >
-               <MdCached />
+               <MdEdit />
             </Link>
          </h4>
       </div>
