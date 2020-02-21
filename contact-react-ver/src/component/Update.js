@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
@@ -13,7 +13,6 @@ import PhoneIphone from '@material-ui/icons/PhoneIphone';
 import Face from '@material-ui/icons/Face';
 
 const Update = ({ contact, onUpdate, history }) => {
-   console.log('화면 update');
    const useStyles = makeStyles(theme => ({
       root: {
          display: 'flex',
@@ -30,22 +29,24 @@ const Update = ({ contact, onUpdate, history }) => {
    const [name, setName] = useState(contact[0].name);
    const [phone, setPhone] = useState(contact[0].phone);
 
-   const onNameChange = e => {
+   const onNameChange = useCallback(e => {
       setName(e.target.value);
-   };
+   }, []);
 
-   const onPhoneChange = e => {
+   const onPhoneChange = useCallback(e => {
       setPhone(e.target.value);
-   };
+   }, []);
 
-   const onSubmit = e => {
-      console.log('수정 submit');
-      onUpdate(name, phone);
-      // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
-      // 이를 방지하기 위해 이 함수를 호출한다.
-      e.preventDefault();
-      history.goBack();
-   };
+   const onSubmit = useCallback(
+      e => {
+         onUpdate(name, phone);
+         // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
+         // 이를 방지하기 위해 이 함수를 호출한다.
+         e.preventDefault();
+         history.goBack();
+      },
+      [onUpdate, history, name, phone],
+   );
 
    const style = {
       color: '#828282',

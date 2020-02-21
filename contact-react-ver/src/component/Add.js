@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
@@ -13,7 +13,6 @@ import PhoneIphone from '@material-ui/icons/PhoneIphone';
 import Face from '@material-ui/icons/Face';
 
 const Add = ({ onInsert, history }) => {
-   console.log('화면 Add');
    const useStyles = makeStyles(theme => ({
       root: {
          display: 'flex',
@@ -32,25 +31,27 @@ const Add = ({ onInsert, history }) => {
    const [name, setName] = useState('');
    const [phone, setPhone] = useState('');
 
-   const onNameChange = e => {
+   const onNameChange = useCallback(e => {
       setName(e.target.value);
-   };
+   }, []);
 
-   const onPhoneChange = e => {
+   const onPhoneChange = useCallback(e => {
       setPhone(e.target.value);
-   };
+   }, []);
 
-   const onSubmit = e => {
-      console.log('추가 onSubmit');
-      onInsert(name, phone);
-      setName(''); // insert 호출 후 name 값 초기화
-      setPhone(''); // insert 호출 후 phone 값 초기화
+   const onSubmit = useCallback(
+      e => {
+         onInsert(name, phone);
+         setName(''); // insert 호출 후 name 값 초기화
+         setPhone(''); // insert 호출 후 phone 값 초기화
 
-      // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
-      // 이를 방지하기 위해 이 함수를 호출한다.
-      e.preventDefault();
-      history.push('/');
-   };
+         // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
+         // 이를 방지하기 위해 이 함수를 호출한다.
+         e.preventDefault();
+         history.push('/');
+      },
+      [onInsert, history, name, phone],
+   );
 
    const style = {
       color: '#828282',
@@ -121,4 +122,4 @@ const Add = ({ onInsert, history }) => {
    );
 };
 
-export default withRouter(Add);
+export default React.memo(withRouter(Add));

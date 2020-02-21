@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Search from '@material-ui/icons/Search';
 
 const Home = ({ contacts, onRemove, onFavorite, onUpdateCheck, history }) => {
-   console.log('화면 home');
    const useStyles = makeStyles(theme => ({
       margin: {
          margin: theme.spacing(1),

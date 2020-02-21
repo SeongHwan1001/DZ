@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Home from './component/Home';
 import Favorites from './component/Favorites';
@@ -11,8 +11,6 @@ import AAdd from '@material-ui/icons/Add';
 import ButtonNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const App = ({ history }) => {
-   console.log('화면App');
-   // state 관리
    const [contacts, setContacts] = useState([
       {
          id: 1,
@@ -70,51 +68,57 @@ const App = ({ history }) => {
    const nextId = useRef(9);
 
    // props로 함수를 전달 할 때는 컴포넌트의 성능을 아낄 수 있도록 useCallback으로 감싸 주는것이 좋다.
-   const onInsert = (name, phone) => {
-      console.log('onInsert');
-      const contact = {
-         id: nextId.current,
-         name: name,
-         phone: phone,
-         favorite: false,
-      };
-      setContacts(contacts.concat(contact));
-      nextId.current += 1;
-   };
+   const onInsert = useCallback(
+      (name, phone) => {
+         const contact = {
+            id: nextId.current,
+            name: name,
+            phone: phone,
+            favorite: false,
+         };
+         setContacts(contacts.concat(contact));
+         nextId.current += 1;
+      },
+      [contacts],
+   );
 
-   const onRemove = id => {
-      console.log('onRemove');
-      // 요소 하나 씩 id와 비교해서 조건에 해당되는 원소들만 추출하여 새로운 배열을 만듬
-      setContacts(contacts.filter(contact => contact.id !== id));
-   };
+   const onRemove = useCallback(
+      id => {
+         // 요소 하나 씩 id와 비교해서 조건에 해당되는 원소들만 추출하여 새로운 배열을 만듬
+         setContacts(contacts.filter(contact => contact.id !== id));
+      },
+      [contacts],
+   );
 
-   const onFavorite = id => {
-      console.log('onFavorite');
-      setContacts(
-         contacts.map(contact =>
-            contact.id === id
-               ? { ...contact, favorite: !contact.favorite }
-               : contact,
-         ),
-      );
-   };
+   const onFavorite = useCallback(
+      id => {
+         setContacts(
+            contacts.map(contact =>
+               contact.id === id
+                  ? { ...contact, favorite: !contact.favorite }
+                  : contact,
+            ),
+         );
+      },
+      [contacts],
+   );
 
-   const onUpdate = (name, phone) => {
-      console.log('onUpdate');
-      setContacts(
-         contacts.map(contact =>
-            contact.id === checkId
-               ? { ...contact, name: name, phone: phone }
-               : contact,
-         ),
-      );
-   };
+   const onUpdate = useCallback(
+      (name, phone) => {
+         setContacts(
+            contacts.map(contact =>
+               contact.id === checkId
+                  ? { ...contact, name: name, phone: phone }
+                  : contact,
+            ),
+         );
+      },
+      [contacts, checkId],
+   );
 
-   const onUpdateCheck = id => {
-      console.log('onUpdateCheck');
+   const onUpdateCheck = useCallback(id => {
       setCheckId(id);
-   };
-   console.log('contacts:', contacts);
+   }, []);
    return (
       <div align="center">
          <table>
