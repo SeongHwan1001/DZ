@@ -1,32 +1,60 @@
 import React from 'react';
 // http://react-icons.netlify.com/#/icons/md 리액트 지원 icon 사용
-import { MdStar, MdStarBorder } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import {
+   MdBookmark,
+   MdBookmarkBorder,
+   MdDelete,
+   MdCached,
+} from 'react-icons/md';
+import { withRouter } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 
-const ContactList = ({ contact, onRemove, onFavorite, onUpdateCheck }) => {
+const ContactList = ({
+   contact,
+   onRemove,
+   onFavorite,
+   onUpdateCheck,
+   history,
+}) => {
    const { id, name, phone, favorite } = contact;
-
+   console.log(contact);
    return (
       <div>
-         <h5>name : {name}</h5>
-         <h5>phone : {phone}</h5>
-         {/* <h5>{favorite}</h5> */}
-         <button onClick={() => onRemove(id)}>삭제</button>
-         <Link to="/update">
-            <button
+         <h4>
+            <Link
+               component="button"
+               variant="body3"
+               color="black"
                onClick={() => {
+                  onFavorite(id);
+               }}
+            >
+               {favorite ? <MdBookmark /> : <MdBookmarkBorder />}
+            </Link>
+            &nbsp;
+            {name} {phone}
+            &nbsp;&nbsp;
+            <Link
+               component="button"
+               onClick={() => {
+                  onRemove(id);
+               }}
+            >
+               <MdDelete />
+            </Link>
+            &nbsp;
+            <Link
+               component="button"
+               onClick={() => {
+                  history.push('/update');
                   onUpdateCheck(contact.id);
                }}
             >
-               수정
-            </button>
-         </Link>
-         <div onClick={() => onFavorite(id)}>
-            {favorite ? <MdStar /> : <MdStarBorder />}
-         </div>
-         <p>-----------------------------</p>
+               <MdCached />
+            </Link>
+         </h4>
       </div>
    );
 };
 
-export default ContactList;
+export default withRouter(ContactList);

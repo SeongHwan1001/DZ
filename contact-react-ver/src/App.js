@@ -1,9 +1,14 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Home from './component/Home';
 import Favorites from './component/Favorites';
 import Add from './component/Add';
 import Update from './component/Update';
+
+import HHome from '@material-ui/icons/Home';
+import Favorite from '@material-ui/icons/Favorite';
+import AAdd from '@material-ui/icons/Add';
+import ButtonNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const App = ({ history }) => {
    // state 관리
@@ -24,6 +29,36 @@ const App = ({ history }) => {
          id: 3,
          name: '홍길동',
          phone: '010-8888-0000',
+         favorite: true,
+      },
+      {
+         id: 4,
+         name: '김민수',
+         phone: '010-1522-1588',
+         favorite: true,
+      },
+      {
+         id: 5,
+         name: '김수한',
+         phone: '010-1588-1011',
+         favorite: false,
+      },
+      {
+         id: 6,
+         name: '이순신',
+         phone: '010-0999-1522',
+         favorite: true,
+      },
+      {
+         id: 7,
+         name: '장수진',
+         phone: '010-8574-0003',
+         favorite: false,
+      },
+      {
+         id: 8,
+         name: '김지석',
+         phone: '010-0855-1452',
          favorite: true,
       },
    ]);
@@ -84,17 +119,28 @@ const App = ({ history }) => {
 
    return (
       <div align="center">
-         {/* <ul align="center">
-            <li> */}
-         <Link to="/">Home</Link>
-         {/* </li>
-            <li> */}
-         <Link to="/favorites">Favorites</Link>
-         {/* </li>
-            <li> */}
-         <Link to="/add">Add</Link>
-         {/* </li>
-         </ul> */}
+         <table>
+            <tbody>
+               <tr align="center">
+                  <td>
+                     <Link to="/">
+                        <ButtonNavigationAction label="Home" icon={<HHome />} />
+                     </Link>
+                  </td>
+                  <td>
+                     <Link to="/favorites">
+                        <ButtonNavigationAction
+                           label="Favorite"
+                           icon={<Favorite />}
+                        />
+                     </Link>
+                  </td>
+                  <Link to="/add">
+                     <ButtonNavigationAction label="Add" icon={<AAdd />} />
+                  </Link>
+               </tr>
+            </tbody>
+         </table>
          <Route
             path="/"
             render={() => (
@@ -102,8 +148,8 @@ const App = ({ history }) => {
                   contacts={contacts}
                   onRemove={onRemove}
                   onFavorite={onFavorite}
-                  // onSearch={onSearch}
                   onUpdateCheck={onUpdateCheck}
+                  history={history}
                />
             )}
             exact={true}
@@ -115,6 +161,7 @@ const App = ({ history }) => {
                   contacts={contacts}
                   onRemove={onRemove}
                   onFavorite={onFavorite}
+                  onUpdateCheck={onUpdateCheck}
                />
             )}
          />
@@ -126,18 +173,12 @@ const App = ({ history }) => {
             path="/update"
             render={() => (
                <Update
-                  contact={contacts[checkId - 1]}
+                  contact={contacts.filter(contact => contact.id === checkId)}
                   onUpdate={onUpdate}
                   history={history}
                />
             )}
          />
-         {/* <TextField id="filled-name" label="Name" variant="filled" /> */}
-         {/* <TextField
-            id="standard-uncontrolled"
-            label="Uncontrolled"
-            defaultValue="foo"
-         /> */}
       </div>
    );
 };
