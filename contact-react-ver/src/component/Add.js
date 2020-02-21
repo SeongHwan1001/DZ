@@ -13,6 +13,7 @@ import PhoneIphone from '@material-ui/icons/PhoneIphone';
 import Face from '@material-ui/icons/Face';
 
 const Add = ({ onInsert, history }) => {
+   console.log('화면 Add');
    const useStyles = makeStyles(theme => ({
       root: {
          display: 'flex',
@@ -40,7 +41,7 @@ const Add = ({ onInsert, history }) => {
    };
 
    const onSubmit = e => {
-      console.log('submit');
+      console.log('추가 onSubmit');
       onInsert(name, phone);
       setName(''); // insert 호출 후 name 값 초기화
       setPhone(''); // insert 호출 후 phone 값 초기화

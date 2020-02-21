@@ -11,6 +11,7 @@ import AAdd from '@material-ui/icons/Add';
 import ButtonNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const App = ({ history }) => {
+   console.log('화면App');
    // state 관리
    const [contacts, setContacts] = useState([
       {
@@ -66,32 +67,29 @@ const App = ({ history }) => {
    const [checkId, setCheckId] = useState('');
 
    // key(고유값)으로 사용될 id
-   const nextId = useRef(4);
+   const nextId = useRef(9);
 
    // props로 함수를 전달 할 때는 컴포넌트의 성능을 아낄 수 있도록 useCallback으로 감싸 주는것이 좋다.
    const onInsert = (name, phone) => {
-      console.log('insert');
-
+      console.log('onInsert');
       const contact = {
          id: nextId.current,
          name: name,
          phone: phone,
          favorite: false,
       };
-      console.log('contact : ', contact);
       setContacts(contacts.concat(contact));
       nextId.current += 1;
    };
 
    const onRemove = id => {
-      console.log('remove');
+      console.log('onRemove');
       // 요소 하나 씩 id와 비교해서 조건에 해당되는 원소들만 추출하여 새로운 배열을 만듬
       setContacts(contacts.filter(contact => contact.id !== id));
    };
 
    const onFavorite = id => {
-      console.log('favorite');
-      console.log(id);
+      console.log('onFavorite');
       setContacts(
          contacts.map(contact =>
             contact.id === id
@@ -102,6 +100,7 @@ const App = ({ history }) => {
    };
 
    const onUpdate = (name, phone) => {
+      console.log('onUpdate');
       setContacts(
          contacts.map(contact =>
             contact.id === checkId
@@ -112,11 +111,10 @@ const App = ({ history }) => {
    };
 
    const onUpdateCheck = id => {
+      console.log('onUpdateCheck');
       setCheckId(id);
-      console.log('id:', checkId);
-      console.log(id);
    };
-
+   console.log('contacts:', contacts);
    return (
       <div align="center">
          <table>

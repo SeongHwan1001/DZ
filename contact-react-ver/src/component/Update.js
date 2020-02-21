@@ -13,6 +13,7 @@ import PhoneIphone from '@material-ui/icons/PhoneIphone';
 import Face from '@material-ui/icons/Face';
 
 const Update = ({ contact, onUpdate, history }) => {
+   console.log('화면 update');
    const useStyles = makeStyles(theme => ({
       root: {
          display: 'flex',
@@ -26,9 +27,6 @@ const Update = ({ contact, onUpdate, history }) => {
    }));
 
    const classes = useStyles();
-
-   // console.log('update');
-   // console.log(contact);
    const [name, setName] = useState(contact[0].name);
    const [phone, setPhone] = useState(contact[0].phone);
 
@@ -41,7 +39,7 @@ const Update = ({ contact, onUpdate, history }) => {
    };
 
    const onSubmit = e => {
-      console.log('submit');
+      console.log('수정 submit');
       onUpdate(name, phone);
       // submit 이번트는 브라우저에서 새로고침을 발생시킨다.
       // 이를 방지하기 위해 이 함수를 호출한다.

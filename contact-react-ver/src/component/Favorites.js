@@ -2,6 +2,7 @@ import React from 'react';
 import ContactList from './ContactList';
 
 const Favorites = ({ contacts, onRemove, onFavorite, onUpdateCheck }) => {
+   console.log('화면 Favorites');
    const style = {
       color: '#828282',
       fontSize: '25px',

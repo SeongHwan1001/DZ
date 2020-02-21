@@ -11,8 +11,8 @@ const ContactList = ({
    onUpdateCheck,
    history,
 }) => {
+   console.log('화면 각 list');
    const { id, name, phone, favorite } = contact;
-   console.log(contact);
    return (
       <div>
          <h4>
