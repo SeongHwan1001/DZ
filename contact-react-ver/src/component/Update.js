@@ -27,20 +27,23 @@ const Update = ({ contact, onUpdate, history }) => {
    // Add의 name과 phone를 App에서 관리를 하면 편하지만 update시 기존에 가지고 있던 정보를 가지고 와서 뿌려주고 그 값을 가지고
    // setName을 사용하기 위해 Add, Update에 각 name, phone의 state와 onChange를 만들어 주었다.
    // 만약 App에서 관리하면 setName, setPhone 사용 불가 -> 즉, 기존의 값을 TextField에 뿌려주지 못함
-   const [name, setName] = useState(contact.name);
-   const [phone, setPhone] = useState(contact.phone);
 
-   const onNameChange = e => {
-      setName(e.target.value);
-   };
+   const [inputs, setInputs] = useState({
+      name: contact.name,
+      phone: contact.phone,
+   });
 
-   const onPhoneChange = e => {
-      setPhone(e.target.value);
+   const onChange = e => {
+      const { name, value } = e.target;
+      setInputs({
+         ...inputs,
+         [name]: value,
+      });
    };
 
    const onSubmit = e => {
       e.preventDefault();
-      onUpdate(name, phone);
+      onUpdate(inputs.name, inputs.phone);
       history.goBack();
    };
 
@@ -63,8 +66,9 @@ const Update = ({ contact, onUpdate, history }) => {
                      </InputAdornment>
                   ),
                }}
-               value={name}
-               onChange={onNameChange}
+               name="name"
+               value={inputs.name}
+               onChange={onChange}
             />
          </p>
          <p>
@@ -79,8 +83,9 @@ const Update = ({ contact, onUpdate, history }) => {
                      </InputAdornment>
                   ),
                }}
-               value={phone}
-               onChange={onPhoneChange}
+               name="phone"
+               value={inputs.phone}
+               onChange={onChange}
             />
          </p>
          <br />

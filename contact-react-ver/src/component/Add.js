@@ -25,21 +25,25 @@ const Add = ({ onInsert, history }) => {
    const classes = useStyles();
 
    // 입력된 값을 관리하기 위한 state값
-   const [name, setName] = useState('');
-   const [phone, setPhone] = useState('');
+   const [inputs, setInputs] = useState({
+      name: '',
+      phone: '',
+   });
 
-   const onNameChange = e => {
-      setName(e.target.value);
-   };
-
-   const onPhoneChange = e => {
-      setPhone(e.target.value);
+   const onChange = e => {
+      const { value, name } = e.target;
+      console.log(e.target);
+      setInputs({
+         ...inputs,
+         [name]: value,
+      });
+      console.log(inputs);
    };
 
    const onSubmit = e => {
       // submit 이번트는 브라우저에서 새로고침을 발생시킨다. 이를 방지하기 위함
       e.preventDefault();
-      onInsert(name, phone);
+      onInsert(inputs.name, inputs.phone);
       history.push('/');
    };
 
@@ -62,8 +66,9 @@ const Add = ({ onInsert, history }) => {
                         </InputAdornment>
                      ),
                   }}
-                  value={name}
-                  onChange={onNameChange}
+                  name="name"
+                  value={inputs.name}
+                  onChange={onChange}
                />
             </p>
             <p>
@@ -77,8 +82,9 @@ const Add = ({ onInsert, history }) => {
                         </InputAdornment>
                      ),
                   }}
-                  value={phone}
-                  onChange={onPhoneChange}
+                  name="phone"
+                  value={inputs.phone}
+                  onChange={onChange}
                />
             </p>
             <br />
