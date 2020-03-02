@@ -1,9 +1,20 @@
 import React from 'react';
+import ContactList from '../List/ContactList';
 
-const FavoritePresenter = () => {
+const FavoritePresenter = ({ contacts, onFavorite, onRemove, onUpdate }) => {
    return (
       <div>
-         <h1>Favorite</h1>
+         <h2>Favorites</h2>
+         {contacts
+            .filter(contact => contact.favorite === true)
+            .map(contact => (
+               <ContactList
+                  contact={contact}
+                  onFavorite={onFavorite}
+                  onRemove={onRemove}
+                  onUpdate={onUpdate}
+               />
+            ))}
       </div>
    );
 };

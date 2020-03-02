@@ -1,11 +1,31 @@
 import React from 'react';
 
-const HomePresenter = () => {
+import { withRouter } from 'react-router-dom';
+
+import ContactList from '../List/ContactList';
+
+const HomePresenter = ({
+   contacts,
+   onRemove,
+   onFavorite,
+   checkId,
+   history,
+}) => {
    return (
       <div>
-         <h1>Home</h1>
+         <h2>Contact Infomation</h2>
+         {contacts.map(contact => (
+            <ContactList
+               contact={contact}
+               checkId={checkId}
+               onRemove={onRemove}
+               onFavorite={onFavorite}
+               key={contact.id}
+               history={history}
+            />
+         ))}
       </div>
    );
 };
 
-export default HomePresenter;
+export default withRouter(HomePresenter);
