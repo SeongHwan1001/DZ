@@ -1,18 +1,31 @@
 import React from 'react';
-import ContactList from '../List/ContactList';
+import List from '../List';
 
-const FavoritePresenter = ({ contacts, onFavorite, onRemove, onUpdate }) => {
+const FavoritePresenter = ({
+   contacts,
+   onFavorite,
+   onRemove,
+   onUpdate,
+   checkId,
+   checked,
+}) => {
+   const style = {
+      color: '#828282',
+      fontSize: '27px',
+   };
    return (
       <div>
-         <h2>Favorites</h2>
+         <h2 style={style}>Favorites</h2>
          {contacts
             .filter(contact => contact.favorite === true)
             .map(contact => (
-               <ContactList
+               <List
                   contact={contact}
                   onFavorite={onFavorite}
                   onRemove={onRemove}
                   onUpdate={onUpdate}
+                  checkId={checkId}
+                  checked={checked}
                />
             ))}
       </div>
